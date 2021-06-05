@@ -81,29 +81,6 @@ void printTitle() {
     cout << endl;
 }
 
-void printResults(Player player, Dealer dealer) {
-    cout << endl;
-    cout << "                   Results" << endl;
-    cout << "=============================================" << endl;
-    cout << "Player: " << player.getHandValue() << " \n";
-    player.PrintDeck();
-    cout << "Dealer: " << dealer.getHandValue() << "\n";
-    dealer.PrintDeck();
-    cout << endl;
-    if (dealer.getHandValue() < player.getHandValue() || dealer.getHandValue() < 21) {
-        cout << "Player Wins: " << player.getBet() << endl << endl;
-        return;
-    }
-    else if (player.getHandValue() == dealer.getHandValue()) {
-        cout << "Draw" << endl << endl;
-        return;
-    }
-    else if (player.getHandValue() > 21 || player.getHandValue() < dealer.getHandValue()) {
-        cout << "Player Loses: " << player.getBet() << endl << endl;
-        return;
-    }
-}
-
 void runGame() {
     char choice = ' ';
     // 1. Create a dealing deck
