@@ -201,51 +201,9 @@ void runGame() {
             // Adds another card to the player's hand
             case 'H':
             case 'h':
-                cout << "=============================================" << endl;
-                p1.AddToTopOfDeck(DealingDeck.RemoveTopCard());
-                p1.printPlayerStats();
-                dealer.printDealerStats();
-                if (p1.getHandValue() > 21) {
-                    printResults(p1, dealer);
-                }
                 break;
             case 'S':
             case 's':
-                // Add cards to the dealer's deck until it reaches 17
-                // or higher
-                // Reveal the second card of the dealer
-                p1.printPlayerStats();
-                cout << "Dealer's Hand Value: ";
-                cout << dealer.getFirstCardWeight() + dealer.getSecondCardWeight() << endl;
-                cout << "-------------------------" << endl;
-                dealer.printFirstCard();
-                cout << " ";
-                dealer.printSecondCard();
-                cout << endl << endl;
-                // Add cards to dealer deck
-                while(dealer.getHandValue() < 17 &&
-                    dealer.getHandValue() < 21) {
-                        dealer.AddToTopOfDeck(DealingDeck.RemoveTopCard());
-                        cout << "=============================================" << endl;
-                        p1.printPlayerStats();
-                        dealer.printDealerStats();
-                }
-                // If dealer has less than player or over 21, player wins
-                if (dealer.getHandValue() < p1.getHandValue() ||
-                    dealer.getHandValue() > 21) {
-                        printResults(p1, dealer);
-                        return;
-                }
-                // If player and dealer have equal hands, it is a draw
-                else if (dealer.getHandValue() == p1.getHandValue()) {
-                    printResults(p1, dealer);
-                    return;
-                }
-                // If Dealer gets a higher hand, player loses
-                else if (dealer.getHandValue() > p1.getHandValue()) {
-                    printResults(p1, dealer);
-                    return;
-                }
                 break;
             case 'D':
             case 'd':
