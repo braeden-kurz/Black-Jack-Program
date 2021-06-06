@@ -82,10 +82,12 @@ void printTitle() {
 }
 
 void runGame() {
+    // Initialize variables within program
+    bool runningGame = true;
     char choice = ' ';
+
     // 1. Create a dealing deck
     Deck DealingDeck;
-
     for(int i = 2; i <= 14; i++ ){ // Cards 2 through Ace
         char val;
         switch(i){
@@ -108,42 +110,43 @@ void runGame() {
     // 2. Shuffle the deck to get random cards
     DealingDeck.ShuffleDeck();
 
-    // 3. Have the player/players place their bets
+    // 3. Create player and dealer objects
     Player p1;
     Dealer dealer;
 
-    while (true) {
-        int bet;
-        cout << "Place your bets champ (1, 10, 20, 50): ";
-        cin >> bet;
-        cout << "=============================================" << endl;
-        switch(bet) {
-            case 1:
-            case 10:
-            case 20:
-            case 50:
-                p1.setBet(bet);
-                cout << endl << endl;
-                break;
-            default:
-                cout << "Invalid input, enter the correct amounts shown\n";
-                cout << endl << endl;
-                cin.clear();
-                cin.ignore(100, '\n');
-                continue;
+    // This loop will keep running the game until the player enters 'q'
+    while (runningGame == true) {
+        // 4. Prompt user for bet amount
+        while (true) {
+            int bet;
+            cout << "Place your bets champ (1, 10, 20, 50): ";
+            cin >> bet;
+            cout << "=============================================" << endl;
+            switch(bet) {
+                case 1:
+                case 10:
+                case 20:
+                case 50:
+                    p1.setBet(bet);
+                    cout << endl << endl;
+                    break;
+                default:
+                    cout << "Invalid input, enter the correct amounts shown\n";
+                    cout << endl << endl;
+                    cin.clear();
+                    cin.ignore(100, '\n');
+                    continue;
         }
         break;
-    }
+        }
 
-    // 4. Hand out cards to player and dealer
-    for (int i = 0; i < 2; i++) {
-        p1.AddToTopOfDeck(DealingDeck.RemoveTopCard());
-        dealer.AddToTopOfDeck(DealingDeck.RemoveTopCard());
-    }
-
+    // 4. Hand out cards to player and dealer and display hands
+        for (int i = 0; i < 2; i++) {
+            p1.AddToTopOfDeck(DealingDeck.RemoveTopCard());
+            dealer.AddToTopOfDeck(DealingDeck.RemoveTopCard());
+        }
         // 5. Print the player's stats and deck
         p1.printPlayerStats();
-
         // 6. Print the dealer's hand
         cout << "Dealer's Hand Value: ";
         cout << dealer.getFirstCardWeight() << endl;
@@ -153,47 +156,28 @@ void runGame() {
         dealer.printHiddenCard();
         cout << endl << endl;
 
-    // 7. Prompt user to hit, stand, or double
-    while(true) {
-        // If player's hand equals 21, they win
-        if (p1.getHandValue() == 21) {
-            cout << "BLACKJACK!!!" << endl;
-            cout << "You win!" << endl;
-            cout << endl;
+        // Prompt player to continue game
+        cout << "Would you like to continue the game, (Y)es or (N)o?: ";
+        while (true) {
+            cin >> choice;
+            switch (choice) {
+                case 'Y':
+                case 'y':
+                    break;
+                case 'N':
+                case 'n':
+                    runningGame = false;
+                    break;
+                default:
+                    cout << endl;
+                    cout << "Wrong input! Continue game, (Y)es or (N)o: ";
+                    cin.clear();
+                    cin.ignore(40, '\n');
+                    continue;
+            }
             break;
-        }
-
-        if (p1.getHandValue() > 21) {
-            cout << "You lose." << endl;
-            cout << endl;
-            break;
-        }
-
-        // Prompt player if they want to hit, stand, or double
-        cout << "=============================================" << endl;
-        cout << "(H)it, (S)tand, or (D)ouble?: ";
-        cin >> choice;
-        cout << endl;
-        switch(choice) {
-            // Adds another card to the player's hand
-            case 'H':
-            case 'h':
-                break;
-            case 'S':
-            case 's':
-                break;
-            case 'D':
-            case 'd':
-                break;
-            default:
-                cout << "Invalid entry! Please choose from the following\n";
-                cout << endl;
-                cin.clear();
-                cin.ignore(40, '\n');
-                continue;
         }
     }
-
 
 };
 
