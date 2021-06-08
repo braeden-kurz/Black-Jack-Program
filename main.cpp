@@ -1,5 +1,5 @@
 /*
- * Name: Braeden Kurz, 2001429594, Black Jack Personal Project
+ * Name: Braeden Kurz, Black Jack Personal Project
  * 
  * Description: My own personal project that simulates a game of
  * Blackjack. There will be two players; the dealer and the one
