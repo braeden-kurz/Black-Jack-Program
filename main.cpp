@@ -17,6 +17,7 @@
 #include <iostream>
 #endif
 
+// Not necessary in the program, may have to toss
 #ifndef VECTOR_H
 #define VECTOR_H
 #include <vector>
@@ -45,7 +46,10 @@
 
 using namespace std;
 
-// FUNCTION DEFINITIONS
+/******************************
+ *  MAIN FUNCTIONS
+*******************************/
+
 void printRules() {
     cout << "The Rules of Blackjack" << endl;
     cout << "=======================================================\n";
@@ -86,37 +90,33 @@ void runGame() {
     bool runningGame = true;
     char choice = ' ';
 
-    // 1. Create a dealing deck
-    Deck DealingDeck;
-    for(int i = 2; i <= 14; i++ ){ // Cards 2 through Ace
-        char val;
-        switch(i){
-            case(14):{val = 'A'; break;}
-            case(13):{val = 'K'; break;}
-            case(12):{val = 'Q'; break;}
-            case(11):{val = 'J'; break;}
-            case(10):{val = 'T'; break;}
-            default:{val = i + 48; break;} // i+48 converts and int to its char representation.
-            // int x = 5; char z = 5 + 48; --> '5'
-        }
-        DealingDeck.AddToTopOfDeck(Card('S', val)); // Spade
-        DealingDeck.AddToTopOfDeck(Card('H', val)); // Heart
-        DealingDeck.AddToTopOfDeck(Card('C', val)); // Club
-        DealingDeck.AddToTopOfDeck(Card('D', val)); // Diamond
-    }
-    DealingDeck.PrintDeck();
-    cout << endl;
-
-    // 2. Shuffle the deck to get random cards
-    DealingDeck.ShuffleDeck();
-
-    // 3. Create player and dealer objects
+    // Create player and dealer objects
     Player p1;
     Dealer dealer;
 
     // This loop will keep running the game until the player enters 'q'
     while (runningGame == true) {
-        // 4. Prompt user for bet amount
+        // Create the deck and shuffle the deck
+        Deck DealingDeck;
+        for(int i = 2; i <= 14; i++ ){ // Cards 2 through Ace
+            char val;
+            switch(i){
+                case(14):{val = 'A'; break;}
+                case(13):{val = 'K'; break;}
+                case(12):{val = 'Q'; break;}
+                case(11):{val = 'J'; break;}
+                case(10):{val = 'T'; break;}
+                default:{val = i + 48; break;} // i+48 converts and int to its char representation.
+                // int x = 5; char z = 5 + 48; --> '5'
+            }
+            DealingDeck.AddToTopOfDeck(Card('S', val)); // Spade
+            DealingDeck.AddToTopOfDeck(Card('H', val)); // Heart
+            DealingDeck.AddToTopOfDeck(Card('C', val)); // Club
+            DealingDeck.AddToTopOfDeck(Card('D', val)); // Diamond
+        }
+        DealingDeck.ShuffleDeck();
+
+        // Prompt user for bet amount
         while (true) {
             int bet;
             cout << "Place your bets champ (1, 10, 20, 50): ";
@@ -136,34 +136,127 @@ void runGame() {
                     cin.clear();
                     cin.ignore(100, '\n');
                     continue;
-        }
-        break;
+            }
+            break;
         }
 
-    // 4. Hand out cards to player and dealer and display hands
+        // Hand out cards to player and dealer and display hands
         for (int i = 0; i < 2; i++) {
             p1.AddToTopOfDeck(DealingDeck.RemoveTopCard());
             dealer.AddToTopOfDeck(DealingDeck.RemoveTopCard());
         }
-        // 5. Print the player's stats and deck
-        p1.printPlayerStats();
-        // 6. Print the dealer's hand
+
+        // Print the dealer's hand
         cout << "Dealer's Hand Value: ";
         cout << dealer.getFirstCardWeight() << endl;
         cout << "-------------------------" << endl;
         dealer.printFirstCard();
         cout << " ";
         dealer.printHiddenCard();
-        cout << endl << endl;
+        cout << endl << endl << endl;
+
+        // Print the player's stats and deck
+        p1.printPlayerStats();
+
+        // Prompt player to hit, stand, or double the player's bet
+
+        while (true) {
+            cout << "(H)it, (S)tand, or (D)ouble?: ";            
+            cin >> choice;
+            switch (choice) {
+                // Add a card to the player's deck
+                case 'H':
+                case 'h':
+                    cout << endl;
+                    p1.AddToTopOfDeck(DealingDeck.RemoveTopCard());
+                    p1.printPlayerStats();
+                    if (p1.getHandValue() == 21) {
+                        cout << "Results\n" << endl;
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << endl;
+                        cout << "You Win!" << endl;
+                        break;
+                    }
+                    else if (p1.getHandValue() > 21) {
+                        cout << "Results\n" << endl;
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << endl;
+                        cout << "You lose." << endl;
+                        break;
+                    }
+                    else {
+                        continue;
+                    }
+                    break;
+                // The player stays and the dealer deals cards to self
+                case 'S':
+                case 's':
+                    cout << endl;
+                    dealer.printDealerStats();
+                    while (dealer.getHandValue() < 17) {
+                        dealer.AddToTopOfDeck(DealingDeck.RemoveTopCard());
+                        dealer.printDealerStats();
+                    }
+
+                    if (dealer.getHandValue() == 21) {
+                        cout << "Results\n" << endl;
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << endl;
+                        cout << "You lose" << p1.getBet() << endl;
+                        break;
+                    }
+                    else if (dealer.getHandValue() > 21) {
+                        cout << "Results\n" << endl;
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << endl;
+                        cout << "You win!" << endl;
+                        break;
+                    }
+                    else if (dealer.getHandValue() == p1.getHandValue()) {
+                        cout << "Results\n" << endl;
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << endl;
+                        cout << "Tie." << endl;
+                        break;
+                    }
+                    else if (dealer.getHandValue() > p1.getHandValue() ||
+                        p1.getHandValue() > dealer.getHandValue()) {
+                        cout << "Results\n" << endl;
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << "You lose." << endl;
+                        break;
+                    }
+                // Doubles the player's bet, but will stay for the round
+                case 'D':
+                case 'd':
+                    break;
+                default:
+                    cout << "Wrong input!\n";
+                    cout << "Please enter (H)it, (S)tand, or (D)ouble: ";
+                    continue;
+            }
+            break;
+        }
 
         // Prompt player to continue game
         cout << "Would you like to continue the game, (Y)es or (N)o?: ";
         while (true) {
             cin >> choice;
             switch (choice) {
+                // Reset each deck and prompt player for another bet
                 case 'Y':
                 case 'y':
+                    DealingDeck.ClearDeck();
+                    p1.ClearDeck();
+                    dealer.ClearDeck();
                     break;
+                // End the game and return to the menu
                 case 'N':
                 case 'n':
                     runningGame = false;

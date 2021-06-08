@@ -111,13 +111,13 @@ int Player::getHandValue() {
 }
 
 void Player::printPlayerStats() {
-    std::cout << "Player 1\n";
-    std::cout << "-------------------\n";
+    std::cout << "Player\n";
+    std::cout << "-------------------------\n";
     std::cout << "Money: " << getMoney() << std::endl;    
     std::cout << "Bet: " << getBet() << std::endl;
     std::cout << "Hand Value: " << getHandValue() << std::endl;
     PrintDeck();
-    std::cout << std::endl;
+    std::cout << std::endl << std::endl;
 }
 
 /*******************************
