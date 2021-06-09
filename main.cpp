@@ -175,7 +175,8 @@ void runGame() {
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
-                        cout << "You Win!" << endl;
+                        cout << "You Win $" << p1.getBet() << endl;
+                        p1.addMoney(p1.getBet() * 1.5);
                         break;
                     }
                     else if (p1.getHandValue() > 21) {
@@ -183,7 +184,8 @@ void runGame() {
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
-                        cout << "You lose." << endl;
+                        cout << "You lose $" << p1.getBet() << endl;
+                        p1.subMoney(p1.getBet());
                         break;
                     }
                     else {
@@ -201,35 +203,51 @@ void runGame() {
                     }
 
                     if (dealer.getHandValue() == 21) {
-                        cout << "Results\n" << endl;
+                        cout << "Results" << endl;
+                        cout << "=============================================\n";
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
-                        cout << "You lose" << p1.getBet() << endl;
+                        cout << "You lose $" << p1.getBet() << endl;
+                        p1.subMoney(p1.getBet());
                         break;
                     }
                     else if (dealer.getHandValue() > 21) {
-                        cout << "Results\n" << endl;
+                        cout << "Results" << endl;
+                        cout << "=============================================\n";
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
-                        cout << "You win!" << endl;
+                        cout << "You Win $" << p1.getBet() << endl;
+                        p1.addMoney(p1.getBet());
                         break;
                     }
                     else if (dealer.getHandValue() == p1.getHandValue()) {
-                        cout << "Results\n" << endl;
+                        cout << "Results" << endl;
+                        cout << "=============================================\n";
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
                         cout << "Tie." << endl;
                         break;
                     }
-                    else if (dealer.getHandValue() > p1.getHandValue() ||
-                        p1.getHandValue() > dealer.getHandValue()) {
-                        cout << "Results\n" << endl;
+                    else if (dealer.getHandValue() > p1.getHandValue()) {
+                        cout << "Results" << endl;
+                        cout << "=============================================\n";
                         p1.printPlayerStats();
                         dealer.printDealerStats();
-                        cout << "You lose." << endl;
+                        cout << "You lose $" << p1.getBet() << endl;
+                        p1.subMoney(p1.getBet());
+                        break;
+                    }
+                    else if (dealer.getHandValue() < p1.getHandValue() ||
+                        p1.getHandValue() > dealer.getHandValue()) {
+                        cout << "Results" << endl;
+                        cout << "=============================================\n";
+                        p1.printPlayerStats();
+                        dealer.printDealerStats();
+                        cout << "You Win $" << p1.getBet() << endl;
+                        p1.addMoney(p1.getBet());
                         break;
                     }
                 // Doubles the player's bet, but will stay for the round
@@ -243,7 +261,6 @@ void runGame() {
             }
             break;
         }
-
         // Prompt player to continue game
         cout << "Would you like to continue the game, (Y)es or (N)o?: ";
         while (true) {

@@ -30,6 +30,8 @@ class Player: public Deck {
         int getBet() const;
         int getHandValue();
         void setBet(int bet);
+        void addMoney(int num);
+        void subMoney(int num);
         void printPlayerStats();
 
 };

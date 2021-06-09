@@ -102,6 +102,14 @@ void Player::setBet(int bet) {
     this->bet = bet;
 }
 
+void Player::addMoney(int num) {
+    money += num;
+}
+
+void Player::subMoney(int num) {
+    money -= num;
+}
+
 int Player::getHandValue() {
     int value = 0;
     for (int i = 0; i < GetSizeOfDeck(); i++) {
