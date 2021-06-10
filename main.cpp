@@ -256,7 +256,6 @@ void runGame() {
                     break;
                 default:
                     cout << "Wrong input!\n";
-                    cout << "Please enter (H)it, (S)tand, or (D)ouble: ";
                     continue;
             }
             break;
