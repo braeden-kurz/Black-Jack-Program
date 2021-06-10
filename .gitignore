@@ -1,2 +1,3 @@
 blackjack.exe
-settings.json
+.vscode
+*.o
