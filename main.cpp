@@ -128,7 +128,8 @@ void runGame() {
                 case 20:
                 case 50:
                     p1.setBet(bet);
-                    cout << endl << endl;
+                    cout << "You have betted $" << p1.getBet() << endl;
+                    cout << endl;
                     break;
                 default:
                     cout << "Invalid input, enter the correct amounts shown\n";
@@ -158,9 +159,25 @@ void runGame() {
         // Print the player's stats and deck
         p1.printPlayerStats();
 
-        // Prompt player to hit, stand, or double the player's bet
-
         while (true) {
+            // If player gets hard blackjack, they win 1.5 their bet
+            if (p1.getHandValue() == 21) {
+                cout << "Results\n" << endl;
+                p1.printPlayerStats();
+                dealer.printDealerStats();
+                cout << endl;
+                cout << "BLACKJACK!\n";
+                cout << "You Win $" << p1.getBet() << endl;
+                p1.addMoney(p1.getBet() * 1.5);
+                break;
+            }
+
+            /* This section is left blank
+             * Needs to take an 'A' valued card and change the value from
+             * 11 to 1 if the hand goes over 21
+             */
+
+            // Prompt the player with the foloowing options
             cout << "(H)it, (S)tand, or (D)ouble?: ";            
             cin >> choice;
             switch (choice) {
@@ -170,15 +187,17 @@ void runGame() {
                     cout << endl;
                     p1.AddToTopOfDeck(DealingDeck.RemoveTopCard());
                     p1.printPlayerStats();
+                    // If the player gets a 21, they win
                     if (p1.getHandValue() == 21) {
                         cout << "Results\n" << endl;
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
                         cout << "You Win $" << p1.getBet() << endl;
-                        p1.addMoney(p1.getBet() * 1.5);
+                        p1.addMoney(p1.getBet());
                         break;
                     }
+                    // If player goes over 21, they lose
                     else if (p1.getHandValue() > 21) {
                         cout << "Results\n" << endl;
                         p1.printPlayerStats();
@@ -195,13 +214,14 @@ void runGame() {
                 // The player stays and the dealer deals cards to self
                 case 'S':
                 case 's':
+                    // Flip dealer's 2nd card and add cards until >=17
                     cout << endl;
                     dealer.printDealerStats();
                     while (dealer.getHandValue() < 17) {
                         dealer.AddToTopOfDeck(DealingDeck.RemoveTopCard());
                         dealer.printDealerStats();
                     }
-
+                    // Dealer's hand is 21 == Player Loss
                     if (dealer.getHandValue() == 21) {
                         cout << "Results" << endl;
                         cout << "=============================================\n";
@@ -212,6 +232,7 @@ void runGame() {
                         p1.subMoney(p1.getBet());
                         break;
                     }
+                    // Dealer's hand goes over 21 == Player win
                     else if (dealer.getHandValue() > 21) {
                         cout << "Results" << endl;
                         cout << "=============================================\n";
@@ -222,15 +243,17 @@ void runGame() {
                         p1.addMoney(p1.getBet());
                         break;
                     }
+                    // Dealer's hand equals player's == Push
                     else if (dealer.getHandValue() == p1.getHandValue()) {
                         cout << "Results" << endl;
                         cout << "=============================================\n";
                         p1.printPlayerStats();
                         dealer.printDealerStats();
                         cout << endl;
-                        cout << "Tie." << endl;
+                        cout << "Push" << endl;
                         break;
                     }
+                    // Dealer's hand greater than player's == Player loss
                     else if (dealer.getHandValue() > p1.getHandValue()) {
                         cout << "Results" << endl;
                         cout << "=============================================\n";
@@ -240,6 +263,7 @@ void runGame() {
                         p1.subMoney(p1.getBet());
                         break;
                     }
+                    // Dealer's hand less than player's == Player win
                     else if (dealer.getHandValue() < p1.getHandValue() ||
                         p1.getHandValue() > dealer.getHandValue()) {
                         cout << "Results" << endl;
@@ -253,13 +277,18 @@ void runGame() {
                 // Doubles the player's bet, but will stay for the round
                 case 'D':
                 case 'd':
+
                     break;
+                // Display error message and clear cin stream
                 default:
                     cout << "Wrong input!\n";
+                    cin.clear();
+                    cin.ignore(40, '\n');
                     continue;
             }
             break;
         }
+
         // Prompt player to continue game
         cout << "Would you like to continue the game, (Y)es or (N)o?: ";
         while (true) {
@@ -277,6 +306,7 @@ void runGame() {
                 case 'n':
                     runningGame = false;
                     break;
+                // Display error message, clear cin, and repeat
                 default:
                     cout << endl;
                     cout << "Wrong input! Continue game, (Y)es or (N)o: ";
@@ -295,23 +325,22 @@ int main() {
     char choice = ' ';
     bool continueGame = true;
 
-    // Display the game menu
+    // Display the game menu and prompt player with options
     while(continueGame == true) {
         printTitle();
         cout << endl;
         cout << "Enter your selection: ";
         cin >> choice;
-        
         switch(choice) {
+            // Run a brand new game
             case 'S':
             case 's':
                 // Start a new game
                 runGame();
                 break;
-
+            // Prints the rules of the game
             case 'R':
             case 'r':
-                // Prints the rules of the game
                 cout << endl << endl;
                 printRules();
                 cout << "Press the 'Enter' key to conitinue...\n";
@@ -319,12 +348,12 @@ int main() {
                 cin.get();
                 cout << endl << endl;
                 break;
-
+            // Exits the program
             case 'Q':
             case 'q':
-                // Exits the program
                 continueGame = false;
                 break;
+            // Displayer error message, clear cin, and repeat
             default:
                 cout << endl << endl;
                 cout << "Wrong input, please select the appropirate options\n";
