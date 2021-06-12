@@ -82,18 +82,6 @@ int Player::getMoney() const {
     return money;
 }
 
-/*
- * Card::Card(char, char): Sets the suit and value of the card to that
- * of the specified parameter variables. Sets the weight of the card
- * based on the suit and 
- * 
- * char suit: The suit of the card (Clubs, Spades, etc)
- * 
- * car value: The number or type of card that carries weight
- * (ace, king, 9, etc)
- * 
- * Return Value: N/A
- */
 int Player::getBet() const {
     return bet;
 }
