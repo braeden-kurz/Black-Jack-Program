@@ -4,12 +4,7 @@
  * Description: My own personal project that simulates a game of
  * Blackjack. There will be two players; the dealer and the one
  * playing against the dealer. Each player will be dealt two
- * cards of shown value. The dealer will be dealt 2
- * 
- * Input:
- * 
- * Output:
- *
+ * cards of shown value.
  */
 
 #ifndef IO_H
@@ -17,11 +12,6 @@
 #include <iostream>
 #endif
 
-// Not necessary in the program, may have to toss
-#ifndef VECTOR_H
-#define VECTOR_H
-#include <vector>
-#endif
 
 #ifndef CARD_H
 #define CARD_H
@@ -50,6 +40,11 @@ using namespace std;
  *  MAIN FUNCTIONS
 *******************************/
 
+/*
+ * void printRules(): Simply prints the rules of the game Blackjack
+ * 
+ * return value: N/A
+ */
 void printRules() {
     cout << "The Rules of Blackjack" << endl;
     cout << "=======================================================\n";
@@ -75,6 +70,12 @@ void printRules() {
     cout << endl << endl;
 };
 
+/*
+ * void printTitle(): Prints the title of the program, along with the
+ * player selections
+ * 
+ * return value: N/A
+ */
 void printTitle() {
     cout << "=============================================\n";
     cout << "||             Blackjack in C++            ||\n";
@@ -85,6 +86,13 @@ void printTitle() {
     cout << endl;
 }
 
+/*
+ * void runGame(): Function executes the game, creating the player and
+ * dealer objects, set the player's money count, and play out a round
+ * until the player chooses whether or not to continue
+ * 
+ * return value: N/A
+ */
 void runGame() {
     // Initialize variables within program
     bool runningGame = true;
@@ -123,6 +131,7 @@ void runGame() {
             cin >> bet;
             cout << "=============================================" << endl;
             switch(bet) {
+                // Sets the player's bet
                 case 1:
                 case 10:
                 case 20:
@@ -131,6 +140,7 @@ void runGame() {
                     cout << "You have betted $" << p1.getBet() << endl;
                     cout << endl;
                     break;
+                // Display error message and clear cin stream
                 default:
                     cout << "Invalid input, enter the correct amounts shown\n";
                     cout << endl << endl;
@@ -321,9 +331,9 @@ void runGame() {
 };
 
 int main() {
-    srand(time(0));
-    char choice = ' ';
-    bool continueGame = true;
+    srand(time(0)); // Gives a bit of randomness shuffling the deck
+    char choice = ' '; // User input variable
+    bool continueGame = true; // Looping condition for ending the game
 
     // Display the game menu and prompt player with options
     while(continueGame == true) {
