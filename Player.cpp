@@ -58,6 +58,7 @@ int Player::getMoney() const {
     return money;
 }
 
+
 /*
  * int Player::getBet() const: Getter function that returns the bet
  * of the player
