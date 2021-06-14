@@ -36,6 +36,10 @@ class Player: public Deck {
 
 };
 
+/*******************************
+ *  DEALER CLASS 
+*******************************/
+
 class Dealer: public Player {
     public:
         void printFirstCard();
